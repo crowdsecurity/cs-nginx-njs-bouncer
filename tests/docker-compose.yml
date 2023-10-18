@@ -1,0 +1,32 @@
+version: '3'
+services:
+  nginx:
+    build:
+      context: nginx
+      args:
+        - NGINX_TAG=${NGINX_TAG:-latest}
+    network_mode: host
+    volumes:
+      - type: bind
+        source: ./conf/example_nginx.conf
+        target: /etc/nginx/nginx.conf
+
+      - type: bind
+        source: ../lib/
+        target: /var/lib/crowdsec/njs/
+
+      - type: bind
+        source: ./conf
+        target: /var/lib/crowdsec/njs/conf
+
+      - type: bind
+        source: ./conf/crowdsec-nginx-njs-bouncer.json
+        target: /etc/crowdsec/bouncers/crowdsec-nginx-njs-bouncer.json
+
+      - type: bind
+        source: ./mock_mmdb_cooker/as.mmdb
+        target: /var/lib/crowdsec/data/GeoLite2-ASN.mmdb
+
+      - type: bind
+        source: ./mock_mmdb_cooker/cn.mmdb
+        target: /var/lib/crowdsec/data/GeoLite2-Country.mmdb
