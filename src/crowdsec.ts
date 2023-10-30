@@ -168,8 +168,8 @@ async function captchaSubmissionIsCorrect(r: NginxHTTPRequest): Promise<boolean>
 async function serveCaptchaSubmissionHandler(r: NginxHTTPRequest): Promise<void> {
     if(await captchaSubmissionIsCorrect(r) == true){
         // @ts-ignore
-        const cookie = jwt.encode({"exp": Date.now()/1000 + 1800}, config.captcha.secret_key + r.remoteAddress)
-        r.headersOut["Set-Cookie"] = ["crowdsec_captcha=" + cookie + "; Path=/; HttpOnly; SameSite=Strict"]
+        const JWTCookie = jwt.encode({"exp": Date.now()/1000 + 1800}, config.captcha.secret_key + r.remoteAddress)
+        r.headersOut["Set-Cookie"] = ["crowdsec_captcha=" + JWTCookie + "; Path=/; HttpOnly; SameSite=Strict"]
         r.return(200, "OK")
     } else{
         r.return(401, "Unauthorized")
