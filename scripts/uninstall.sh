@@ -54,6 +54,7 @@ remove_nginx_dependency() {
 
 uninstall() {
     rm -r ${DATA_PATH}
+    rm /etc/nginx/conf.d/crowdsec_root.conf
 }
 
 if ! [ $(id -u) = 0 ]; then
