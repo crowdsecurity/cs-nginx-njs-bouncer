@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <script src="{{captcha_frontend_js}}"></script>
+    <title>CrowdSec Captcha</title>
+    <style>
+        html,
+        body {
+            height: 100%;
+            margin: 0;
+        }
+
+        .container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+        }
+
+        .centered-form {
+            max-width: 400px;
+            padding: 20px;
+            background-color: #f0f0f0;
+            border-radius: 8px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <form action="?" method="GET" class="centered-form", id="captcha-form">
+          <div class="{{captcha_frontend_css_class}}" data-sitekey="{{captcha_site_key}}" data-callback="captchaCallback"></div>
+            <br />
+        </form>
+    </div>
+</body>
+
+<script>
+  function captchaCallback(token) {
+      const xhr = new XMLHttpRequest();
+      xhr.onreadystatechange = () => {
+      if (xhr.readyState === 4) {
+          window.location.reload()
+      }
+      };
+      let targetURL = new URL(window.location.href);
+      targetURL.searchParams.set('captcha_token', token);
+      xhr.open("GET", targetURL.toString());
+      xhr.send();
+  }
+</script>
+
+</html>

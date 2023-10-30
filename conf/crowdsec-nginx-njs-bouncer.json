@@ -1,0 +1,33 @@
+{
+    "crowdsec_config": {
+        "lapi_key": "${API_KEY}",
+        "lapi_url": "${CROWDSEC_LAPI_URL}",
+        "include_scenarios_containing": [],
+        "exclude_scenarios_containing": [],
+        "only_include_decisions_from": []
+    },
+
+    "ban": {
+        "enabled": true,
+        "template_path": "/var/lib/crowdsec/njs/templates/ban.html"
+    },
+
+    "captcha": {
+        "enabled": true,
+        "provider": "<turnstile>|<hcaptcha>|<recaptcha_v2>",
+        "secret_key": "<CAPTHCA_SECRET_KEY>",
+        "site_key": "<CAPTCHA_SITE_KEY>",
+        "template_path": "/var/lib/crowdsec/njs/templates/captcha.html"
+    },
+
+    "country_remediations":{
+        "enabled": false,
+        "ip_to_country_mmdb_path": "/var/lib/crowdsec/njs/GeoLite2-Country.mmdb"
+    },
+
+    "as_remediations":{
+        "enabled": false, 
+        "ip_to_as_mmdb_path": "/var/lib/crowdsec/njs/GeoLite2-ASN.mmdb"
+    }
+        
+}
