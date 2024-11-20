@@ -1,0 +1,49 @@
+name: End-to-end tests
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    name: "Build + tests"
+    runs-on: ubuntu-latest
+
+    steps:
+
+    - name: Check out code into the Go module directory
+      uses: actions/checkout@v3
+      with:
+        fetch-depth: 0
+
+    - name: Install Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: 18
+    
+    - name: Install JS Deps 
+      run: npm install 
+    
+    - name: Build Code
+      run: |
+        make build
+    
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.x'
+    
+    - name: Install Test Dependencies
+      run: pip install -r tests/requirements-dev.txt
+    
+    - name: Run Tests
+      run: |
+        cd tests
+        python -m unittest -v
+      env:
+        NGINX_TAG: 1.25.2
+
+    
